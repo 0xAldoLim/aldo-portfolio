@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 
 type Point = { x: number; y: number; phase: number };
+type ProjectedPoint = { x: number; y: number };
 
 export function LineField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,13 +19,28 @@ export function LineField() {
     let pointerX = -1000;
     let pointerY = -1000;
     let scrollY = window.scrollY;
-    const paths: Point[][] = Array.from({ length: 8 }, (_, pathIndex) =>
-      Array.from({ length: 9 }, (_, pointIndex) => ({
-        x: pointIndex / 8,
-        y: .12 + pathIndex * .105 + Math.sin(pointIndex * 1.7 + pathIndex) * .025,
-        phase: pathIndex * .9 + pointIndex * .65,
+    const compact = window.innerWidth < 640;
+    const pathCount = compact ? 7 : 10;
+    const pointCount = compact ? 8 : 12;
+    const paths: Point[][] = Array.from({ length: pathCount }, (_, pathIndex) =>
+      Array.from({ length: pointCount }, (_, pointIndex) => ({
+        x: pointIndex / (pointCount - 1),
+        y: .08 + pathIndex * (.84 / (pathCount - 1)) + Math.sin(pointIndex * 1.43 + pathIndex * .82) * .026,
+        phase: pathIndex * .77 + pointIndex * .58,
       })),
     );
+
+    const project = (point: Point, width: number, height: number, time: number): ProjectedPoint => {
+      const baseX = point.x * width;
+      const scrollShift = scrollY * .014 * Math.sin(point.phase);
+      const baseY = point.y * height + Math.sin(time * .00025 + point.phase) * 3.4 + scrollShift;
+      const distance = Math.hypot(baseX - pointerX, baseY - pointerY);
+      const response = Math.max(0, 1 - distance / (compact ? 125 : 220));
+      return {
+        x: baseX + response * (baseX - pointerX) * .032,
+        y: baseY + response * (baseY - pointerY) * .032,
+      };
+    };
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio, 1.5);
@@ -39,23 +55,50 @@ export function LineField() {
       const width = canvas.clientWidth;
       const height = canvas.clientHeight;
       context.clearRect(0, 0, width, height);
-      const color = getComputedStyle(document.documentElement).getPropertyValue("--border").trim();
-      context.strokeStyle = color;
+      const styles = getComputedStyle(document.documentElement);
+      const borderColor = styles.getPropertyValue("--border").trim();
+      const accentColor = styles.getPropertyValue("--accent").trim();
+      const projected = paths.map((path) => path.map((point) => project(point, width, height, time)));
+      const scrollDensity = Math.min(Math.abs(scrollY) / 1600, .1);
+
+      context.strokeStyle = borderColor;
       context.lineWidth = 1;
-      for (const path of paths) {
+      context.globalAlpha = .72 + scrollDensity;
+      for (const path of projected) {
         context.beginPath();
         path.forEach((point, index) => {
-          const baseX = point.x * width;
-          const baseY = point.y * height + Math.sin(time * .00022 + point.phase) * 3 + scrollY * .012 * Math.sin(point.phase);
-          const distance = Math.hypot(baseX - pointerX, baseY - pointerY);
-          const response = Math.max(0, 1 - distance / 180);
-          const x = baseX + response * (baseX - pointerX) * .018;
-          const y = baseY + response * (baseY - pointerY) * .018;
-          if (index === 0) context.moveTo(x, y);
-          else context.lineTo(x, y);
+          if (index === 0) context.moveTo(point.x, point.y);
+          else context.lineTo(point.x, point.y);
         });
         context.stroke();
       }
+
+      const connectors = compact
+        ? [[1, 3, 2], [3, 5, 5]]
+        : [[1, 4, 2], [2, 6, 8], [4, 8, 5], [6, 9, 9]];
+      context.globalAlpha = .42;
+      context.strokeStyle = borderColor;
+      for (const [fromPath, toPath, pointIndex] of connectors) {
+        const start = projected[fromPath]?.[pointIndex];
+        const end = projected[toPath]?.[Math.min(pointIndex + 1, pointCount - 1)];
+        if (!start || !end) continue;
+        context.beginPath();
+        context.moveTo(start.x, start.y);
+        context.lineTo(end.x, end.y);
+        context.stroke();
+
+        context.globalAlpha = .34;
+        context.strokeStyle = accentColor;
+        context.beginPath();
+        context.moveTo(start.x - 4, start.y);
+        context.lineTo(start.x + 4, start.y);
+        context.moveTo(start.x, start.y - 4);
+        context.lineTo(start.x, start.y + 4);
+        context.stroke();
+        context.globalAlpha = .42;
+        context.strokeStyle = borderColor;
+      }
+      context.globalAlpha = 1;
       frame = requestAnimationFrame(draw);
     };
 

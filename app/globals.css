@@ -146,7 +146,7 @@ img { max-width: 100%; height: auto; }
 .lede { max-width: 720px; margin: 28px 0 0; color: var(--muted); font-size: clamp(1.05rem, 1.7vw, 1.3rem); line-height: 1.55; }
 .focus-line { margin: 16px 0 0; color: var(--muted); font-family: "JetBrains Mono Variable", monospace; font-size: clamp(.72rem, 1.2vw, .86rem); overflow-wrap: anywhere; }
 .hero { min-height: calc(100svh - 76px); display: flex; align-items: center; overflow: hidden; }
-.hero-content { position: relative; z-index: 2; width: 100%; padding-block: 72px; }
+.hero-content { position: relative; z-index: 2; padding-block: 72px; }
 .hero-actions, .text-links { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 36px; }
 .text-links { margin-top: 19px; gap: 24px; }
 
@@ -176,7 +176,8 @@ img { max-width: 100%; height: auto; }
 .text-link:hover { color: var(--text); border-color: var(--accent); }
 .external-mark { font-size: .8em; color: var(--accent); }
 
-.line-field { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .42; pointer-events: none; }
+.line-field { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .56; pointer-events: none; }
+[data-theme="dark"] .line-field { opacity: .68; }
 .split { display: grid; grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr); gap: clamp(48px, 10vw, 160px); align-items: start; }
 .body-copy { max-width: 700px; margin: 0; color: var(--muted); font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.6; }
 .section-link { margin-top: 28px; }
