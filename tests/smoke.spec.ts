@@ -10,6 +10,19 @@ test("homepage loads and main navigation works", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Work built");
 });
 
+test("hero wave animates when the page scrolls", async ({ page }) => {
+  await page.goto("/");
+  const canvas = page.locator("canvas.line-field");
+  await expect(canvas).toBeVisible();
+  const before = await canvas.evaluate((element) => (element as HTMLCanvasElement).toDataURL());
+  await page.mouse.wheel(0, 360);
+  await page.waitForTimeout(180);
+  const after = await canvas.evaluate((element) => (element as HTMLCanvasElement).toDataURL());
+  expect(after).not.toBe(before);
+  await expect(page.getByRole("button", { name: "Open command palette" }).locator("svg")).toBeVisible();
+  await expect(page.getByRole("button", { name: /^Theme:/ }).locator("svg")).toBeVisible();
+});
+
 test("mobile menu opens, shows active route, and closes with Escape", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/about");

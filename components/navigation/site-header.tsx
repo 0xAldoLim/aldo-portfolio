@@ -10,6 +10,15 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function SearchIcon() {
+  return (
+    <svg className="control-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="10.75" cy="10.75" r="5.75" />
+      <path d="m15 15 4.25 4.25" />
+    </svg>
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -59,7 +68,7 @@ export function SiteHeader() {
         </nav>
         <div className="header-controls">
           <button type="button" className="icon-button" aria-label="Open command palette" title="Command palette" onClick={() => window.dispatchEvent(new Event("open-command-palette"))}>
-            <span className="theme-label" aria-hidden="true">K</span>
+            <SearchIcon />
           </button>
           <ThemeControl />
           <button ref={triggerRef} type="button" className="menu-button" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((value) => !value)}>
