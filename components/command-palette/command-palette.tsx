@@ -14,7 +14,7 @@ const actions: Action[] = [
   ...navItems.map((item) => ({ label: item.label, kind: "Section", href: item.href, search: item.label })),
   ...projects.map((project) => ({ label: project.title, kind: "Project", href: `/projects/${project.slug}`, search: `${project.title} ${project.technologies.join(" ")}` })),
   ...ctfResults.map((event) => ({ label: `${event.event}: ${event.result}`, kind: "CTF", href: "/ctf", search: `${event.event} ${event.result} ${event.scope}` })),
-  { label: "Email Aldo", kind: "Contact", href: `mailto:${siteConfig.email}`, search: "contact email" },
+  { label: "Send me an email", kind: "Contact", href: `mailto:${siteConfig.email}`, search: "contact email" },
   { label: "GitHub / 0xAldoLim", kind: "Profile", href: siteConfig.github, search: "github code repositories" },
   { label: "LinkedIn / aldo-lim", kind: "Profile", href: siteConfig.linkedin, search: "linkedin profile" },
 ];

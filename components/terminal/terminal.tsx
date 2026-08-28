@@ -14,15 +14,15 @@ const commandMap: Record<string, string | "links"> = {
   skills: "Security: reverse engineering, OSINT, threat intelligence, incident response, SOC operations, web security, and digital forensics.",
   projects: "/projects: HackEd CTF Platform, Bingoo, Mandiri News, and MitraPulse.",
   ctf: "/ctf: competition placements, finals, and MVP recognition from 2025 to 2026.",
-  writeups: "/writeups: approved public technical notes and CTF solutions.",
-  contact: "/contact: email, phone, LinkedIn, GitHub, and secure contact form.",
+  writeups: "/writeups: CTF solutions and technical notes from completed events.",
+  contact: "/contact: email, phone, LinkedIn, GitHub, and contact form.",
   github: "links",
   linkedin: "links",
   pwd: "/home/aldo/portfolio",
   ls: "about/  projects/  ctf/  writeups/  contact/",
   "cat flag.txt": "flag{curiosity_is_a_feature}",
   "sudo hire aldo": "Permission granted. Opening contact.",
-  uname: "portfolio 1.0 / Next.js / TypeScript / human-curated",
+  uname: "portfolio 1.0 / Next.js / TypeScript",
 };
 
 export function Terminal() {
@@ -70,7 +70,7 @@ export function Terminal() {
 
   return (
     <div className="terminal" onClick={() => inputRef.current?.focus()}>
-      <div className="terminal-bar"><span>TERMINAL / LOCAL</span><span>NO SHELL ACCESS</span></div>
+      <div className="terminal-bar"><span>TERMINAL / PORTFOLIO</span><span>SESSION READY</span></div>
       <div className="terminal-screen" ref={screenRef} aria-live="polite" aria-label="Interactive portfolio terminal output">
         {entries.map((entry, index) => (
           <div className="terminal-line" key={`${entry.command}-${index}`}>

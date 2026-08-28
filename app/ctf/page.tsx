@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMetadata("CTF Archive", "Capture The Flag 
 export default function CtfPage() {
   return (
     <>
-      <header className="page-header"><div className="site-shell"><p className="eyebrow">03 / CTF</p><h1 className="page-title">Competition history, without inflated numbers.</h1><p className="lede">Chronological placements and recognition from practical cybersecurity competitions. Results are listed without invented scores or team details.</p></div></header>
+      <header className="page-header"><div className="site-shell"><p className="eyebrow">03 / CTF</p><h1 className="page-title">A record of competition and progress.</h1><p className="lede">Placements and recognition from jeopardy, attack and defense, national, and international CTF events.</p></div></header>
       <section className="section section-compact"><div className="site-shell"><p className="eyebrow eyebrow-muted">CTF ARCHIVE / 2026 - 2025</p><CtfArchive /></div></section>
     </>
   );

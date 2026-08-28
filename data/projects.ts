@@ -11,7 +11,7 @@ export const projects: readonly Project[] = [
     technologies: ["ASP.NET Web Forms", ".NET Framework 4.8", "C#", "SQL Server LocalDB", "HTML", "CSS", "JavaScript"],
     features: ["Challenge listing and detail flows", "Flag submission and scoring", "Administrative challenge management", "Duplicate solve protection"],
     problem: "The university project needed a single environment where students could study security topics and apply them through managed CTF challenges.",
-    implementation: "The platform combines authentication, training content, team management, scoring, and publishing workflows. Aldo focused on the CTF module and its challenge lifecycle.",
+    implementation: "The platform combines authentication, training content, team management, scoring, and publishing workflows. I focused on the CTF module and its challenge lifecycle.",
     decisions: ["Kept challenge, solve, and score responsibilities distinct", "Validated submissions before score updates", "Added administration paths for challenge maintenance"],
     security: ["Protected solve records against accidental duplicate credit", "Kept challenge administration behind authenticated role checks", "Avoided exposing stored flags in challenge views"],
     repository: { owner: "0xAldoLim", name: "HackED-CTF-Platform", url: "https://github.com/0xAldoLim/HackED-CTF-Platform" },

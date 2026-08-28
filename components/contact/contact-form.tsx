@@ -31,15 +31,15 @@ export function ContactForm() {
         }
         setErrors(nextErrors);
         setState("error");
-        setMessage(result.message ?? "Message could not be sent. Email Aldo directly at aldolimsaputra@gmail.com.");
+        setMessage(result.message ?? "I could not send your message. Please email me at aldolimsaputra@gmail.com.");
         return;
       }
       form.reset();
       setState("success");
-      setMessage("Message sent. Aldo will reply by email.");
+      setMessage("Thanks, your message was sent. I will reply by email.");
     } catch {
       setState("error");
-      setMessage("Message could not be sent. Email Aldo directly at aldolimsaputra@gmail.com.");
+      setMessage("I could not send your message. Please email me at aldolimsaputra@gmail.com.");
     }
   };
 

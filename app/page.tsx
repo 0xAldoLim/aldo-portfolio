@@ -37,7 +37,7 @@ export default function HomePage() {
           <div><p className="eyebrow">01 / ABOUT</p><h2 className="section-title">Learning through systems, tools, and competition.</h2></div>
           <div>
             <p className="body-copy">I am a Computer Science student specializing in Cyber Security at Asia Pacific University. I spend much of my technical time competing in CTFs, studying how systems fail, building security-focused tools, and improving my practical understanding of defensive and offensive security.</p>
-            <Link className="text-link section-link" href="/about">Expanded profile</Link>
+            <Link className="text-link section-link" href="/about">More about me</Link>
           </div>
         </div>
       </section>
@@ -62,7 +62,7 @@ export default function HomePage() {
 
       <section className="section">
         <div className="site-shell split">
-          <div><p className="eyebrow">INTERACTIVE SESSION</p><h2 className="section-title">Query the portfolio.</h2><p className="lede">A deterministic local command interface. No input reaches a shell.</p></div>
+          <div><p className="eyebrow">INTERACTIVE SESSION</p><h2 className="section-title">Query the portfolio.</h2><p className="lede">Use familiar commands to explore my work, CTF results, skills, and contact details.</p></div>
           <Terminal />
         </div>
       </section>
@@ -70,7 +70,7 @@ export default function HomePage() {
       <section className="section section-compact">
         <div className="site-shell split">
           <div><p className="eyebrow">SYSTEM / CONTACT</p><h2 className="section-title">Open to security opportunities.</h2></div>
-          <div><p className="body-copy">Interested in SOC, threat intelligence, security analysis, reverse engineering, incident response, and security engineering pathways.</p><Link className="button button-primary section-link" href="/contact">Contact Aldo</Link></div>
+          <div><p className="body-copy">Interested in SOC, threat intelligence, security analysis, reverse engineering, incident response, and security engineering pathways.</p><Link className="button button-primary section-link" href="/contact">Get in touch</Link></div>
         </div>
       </section>
     </>

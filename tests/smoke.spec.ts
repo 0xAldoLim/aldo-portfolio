@@ -45,7 +45,7 @@ test("project route and writeup archive render", async ({ page }) => {
   await page.goto("/projects/hacked-ctf-platform");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("HackEd CTF Platform");
   await page.goto("/writeups");
-  await expect(page.getByText("No public writeups have been added yet.")).toBeVisible();
+  await expect(page.getByText("I have not published any writeups here yet.")).toBeVisible();
 });
 
 test("contact validation returns accessible inline errors", async ({ page }) => {

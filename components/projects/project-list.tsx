@@ -21,7 +21,7 @@ export async function ProjectList({ items }: { items: readonly Project[] }) {
               <div>{project.role.toUpperCase()}</div>
               <div>{project.technologies.slice(0, 5).join(" / ")}</div>
               {live ? (
-                <div className="project-live" aria-label="Live GitHub metadata">
+                <div className="project-live" aria-label="Repository details from GitHub">
                   <span>{live.stars} {live.stars === 1 ? "STAR" : "STARS"}</span>
                   {live.language ? <span>{live.language.toUpperCase()}</span> : null}
                   <span>UPDATED {formatDate(live.updatedAt).toUpperCase()}</span>

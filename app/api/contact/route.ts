@@ -54,9 +54,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: "Check the highlighted fields.", errors: parsed.error.flatten().fieldErrors }, { status: 400 });
   }
   if (parsed.data.website) return NextResponse.json({ ok: true });
-  if (await rateLimited(clientKey(request))) return NextResponse.json({ ok: false, message: "Too many messages were sent. Email Aldo directly instead." }, { status: 429 });
+  if (await rateLimited(clientKey(request))) return NextResponse.json({ ok: false, message: "Too many messages were sent. Please try again later or email me directly." }, { status: 429 });
   if (!process.env.RESEND_API_KEY) {
-    return NextResponse.json({ ok: false, message: "Form delivery is not configured. Email Aldo directly at aldolimsaputra@gmail.com." }, { status: 503 });
+    return NextResponse.json({ ok: false, message: "The contact form is unavailable right now. Please email me at aldolimsaputra@gmail.com." }, { status: 503 });
   }
   const data = {
     name: clean(parsed.data.name),
@@ -77,9 +77,9 @@ export async function POST(request: NextRequest) {
       }),
       signal: AbortSignal.timeout(8000),
     });
-    if (!response.ok) return NextResponse.json({ ok: false, message: "Message could not be delivered. Email Aldo directly at aldolimsaputra@gmail.com." }, { status: 502 });
+    if (!response.ok) return NextResponse.json({ ok: false, message: "I could not send your message. Please email me at aldolimsaputra@gmail.com." }, { status: 502 });
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ ok: false, message: "Message could not be delivered. Email Aldo directly at aldolimsaputra@gmail.com." }, { status: 502 });
+    return NextResponse.json({ ok: false, message: "I could not send your message. Please email me at aldolimsaputra@gmail.com." }, { status: 502 });
   }
 }
