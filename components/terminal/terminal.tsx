@@ -21,7 +21,7 @@ const commandMap: Record<string, string | "links"> = {
   linkedin: "links",
   pwd: "/home/aldo/portfolio",
   ls: "about/  projects/  ctf/  writeups/  contact/  flag.txt",
-  "cat flag.txt": "flag{curiosity_is_a_feature}",
+  "cat flag.txt": "joji{r3jected_RE_cc_ch4sing_tru3_l0ve_MTJqdW5lMjAyNg==}",
   "sudo hire aldo": "Permission granted. Opening contact.",
   fortune: "The fastest path to a solution is usually a better question.",
   "ping aldo": "Reply from aldo: online between Malaysia and Indonesia.",

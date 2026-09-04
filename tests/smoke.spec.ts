@@ -61,7 +61,7 @@ test("terminal accepts a known command and retains history", async ({ page }) =>
   await expect(page.getByText("Try reading flag.txt, asking for a fortune, or pinging aldo.")).toBeVisible();
   await input.fill("cat flag.txt");
   await input.press("Enter");
-  await expect(page.getByText("flag{curiosity_is_a_feature}")).toBeVisible();
+  await expect(page.getByText("joji{r3jected_RE_cc_ch4sing_tru3_l0ve_MTJqdW5lMjAyNg==}")).toBeVisible();
 });
 
 test("project route and writeup archive render", async ({ page }) => {
