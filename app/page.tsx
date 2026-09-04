@@ -15,7 +15,7 @@ export default function HomePage() {
       <section className="hero section">
         <LineField />
         <div className="site-shell hero-content">
-          <p className="eyebrow">STATUS: ACTIVE / KUALA LUMPUR</p>
+          <p className="eyebrow">STATUS: ACTIVE / MALAYSIA / INDONESIA</p>
           <h1 className="display">ALDO LIM<br />SAPUTRA</h1>
           <p className="subhead">Cyber Security Student / CTF Player</p>
           <p className="lede">Cybersecurity enthusiast pursuing a career in security, competing in CTFs, building technical tools, and documenting the process.</p>

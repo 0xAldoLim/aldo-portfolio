@@ -28,6 +28,7 @@ export const siteConfig = {
   url: resolveSiteUrl(),
   email: "aldolimsaputra@gmail.com",
   phone: "+60 10 253 3181",
+  location: "Malaysia / Indonesia",
   github: "https://github.com/0xAldoLim",
   linkedin: "https://www.linkedin.com/in/aldo-lim",
 } as const;

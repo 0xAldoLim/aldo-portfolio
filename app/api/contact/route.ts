@@ -1,5 +1,6 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
 import { contactSchema } from "@/lib/contact";
 import { hasUpstash, redisCommand } from "@/lib/upstash";
 import { siteConfig } from "@/lib/site";
@@ -55,7 +56,9 @@ export async function POST(request: NextRequest) {
   }
   if (parsed.data.website) return NextResponse.json({ ok: true });
   if (await rateLimited(clientKey(request))) return NextResponse.json({ ok: false, message: "Too many messages were sent. Please try again later or email me directly." }, { status: 429 });
-  if (!process.env.RESEND_API_KEY) {
+  const resendApiKey = process.env.RESEND_API_KEY?.trim();
+  const resendFromEmail = process.env.RESEND_FROM_EMAIL?.trim();
+  if (!resendApiKey || !resendFromEmail) {
     return NextResponse.json({ ok: false, message: "The contact form is unavailable right now. Please email me at aldolimsaputra@gmail.com." }, { status: 503 });
   }
   const data = {
@@ -65,19 +68,18 @@ export async function POST(request: NextRequest) {
     message: clean(parsed.data.message),
   };
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        from: process.env.RESEND_FROM_EMAIL ?? "Portfolio Contact <onboarding@resend.dev>",
+    const resend = new Resend(resendApiKey);
+    const { data: delivery, error } = await resend.emails.send(
+      {
+        from: resendFromEmail,
         to: [siteConfig.email],
-        reply_to: data.email,
+        replyTo: data.email,
         subject: `[Portfolio] ${data.subject}`,
         text: `Name: ${data.name}\nEmail: ${data.email}\n\n${data.message}`,
-      }),
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!response.ok) return NextResponse.json({ ok: false, message: "I could not send your message. Please email me at aldolimsaputra@gmail.com." }, { status: 502 });
+      },
+      { idempotencyKey: `portfolio-contact/${randomUUID()}` },
+    );
+    if (error || !delivery?.id) return NextResponse.json({ ok: false, message: "I could not send your message. Please email me at aldolimsaputra@gmail.com." }, { status: 502 });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false, message: "I could not send your message. Please email me at aldolimsaputra@gmail.com." }, { status: 502 });

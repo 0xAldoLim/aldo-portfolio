@@ -32,12 +32,24 @@ All integrations are optional. The site builds without credentials.
 
 - `NEXT_PUBLIC_SITE_URL`: canonical production URL, for example `https://aldo.example`
 - `GITHUB_TOKEN`: server-only token for higher GitHub API limits
-- `RESEND_API_KEY`: enables contact form delivery
-- `RESEND_FROM_EMAIL`: optional Resend-verified sender identity
+- `RESEND_API_KEY`: required for contact form delivery
+- `RESEND_FROM_EMAIL`: required Resend-verified sender identity, for example `Aldo Portfolio <contact@yourdomain.com>`
 - `UPSTASH_REDIS_REST_URL`: enables persistent contact rate limiting and visit counts
 - `UPSTASH_REDIS_REST_TOKEN`: companion Upstash REST credential
 
 Never expose the GitHub, Resend, or Upstash credentials through `NEXT_PUBLIC_` variables.
+
+### Enable the contact form
+
+1. Create a Resend account and API key.
+2. Add a domain in the Resend dashboard and complete its DNS verification.
+3. In Vercel, open Project Settings, then Environment Variables.
+4. Add `RESEND_API_KEY` and set `RESEND_FROM_EMAIL` to an address on the verified domain.
+5. Enable the variables for Production, Preview, and Development as needed, then redeploy.
+
+The destination remains `aldolimsaputra@gmail.com`, and replies are addressed to the visitor who submitted the form. If delivery is unavailable, the form displays the direct email address instead of reporting a false success.
+
+For initial testing only, Resend's `onboarding@resend.dev` sender can deliver to the email address associated with the Resend account. A verified domain is required before using the form as a production contact channel.
 
 ## CV
 

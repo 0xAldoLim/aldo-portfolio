@@ -77,18 +77,20 @@ export function SiteHeader() {
         </div>
       </div>
       {open ? (
-        <div ref={menuRef} className="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-          <nav aria-label="Mobile navigation">
-            {navItems.map((item) => (
-              <Link key={item.href} className="mobile-link" href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} onClick={() => setOpen(false)}>
-                <span className="nav-number">{item.number}</span><span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-          <div className="mobile-menu-meta">
-            <a href="https://github.com/0xAldoLim" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://www.linkedin.com/in/aldo-lim" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="mailto:aldolimsaputra@gmail.com">Email</a>
+        <div className="mobile-menu-layer" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
+          <div ref={menuRef} className="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <nav aria-label="Mobile navigation">
+              {navItems.map((item) => (
+                <Link key={item.href} className="mobile-link" href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} onClick={() => setOpen(false)}>
+                  <span className="nav-number">{item.number}</span><span>{item.label}</span>
+                </Link>
+              ))}
+            </nav>
+            <div className="mobile-menu-meta">
+              <a href="https://github.com/0xAldoLim" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://www.linkedin.com/in/aldo-lim" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="mailto:aldolimsaputra@gmail.com">Email</a>
+            </div>
           </div>
         </div>
       ) : null}

@@ -28,8 +28,12 @@ test("mobile menu opens, shows active route, and closes with Escape", async ({ p
   await page.goto("/about");
   const menu = page.getByRole("button", { name: "Open menu" });
   await menu.click();
-  await expect(page.getByRole("dialog", { name: "Mobile navigation" })).toBeVisible();
-  await expect(page.getByRole("dialog").getByRole("link", { name: /About/ })).toHaveAttribute("aria-current", "page");
+  const dialog = page.getByRole("dialog", { name: "Mobile navigation" });
+  await expect(dialog).toBeVisible();
+  const bounds = await dialog.boundingBox();
+  expect(bounds?.width).toBeLessThanOrEqual(350);
+  expect(bounds?.height).toBeLessThan(380);
+  await expect(dialog.getByRole("link", { name: /About/ })).toHaveAttribute("aria-current", "page");
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog", { name: "Mobile navigation" })).toBeHidden();
 });
@@ -49,9 +53,15 @@ test("terminal accepts a known command and retains history", async ({ page }) =>
   const input = page.getByRole("textbox", { name: "Terminal command" });
   await input.fill("whoami");
   await input.press("Enter");
-  await expect(page.getByText("Aldo Lim Saputra / Cyber Security Student / CTF Player")).toBeVisible();
+  await expect(page.getByText(/Aldo Lim Saputra \/ Cyber Security Student \/ CTF Player/)).toBeVisible();
   await input.press("ArrowUp");
   await expect(input).toHaveValue("whoami");
+  await input.fill("hint");
+  await input.press("Enter");
+  await expect(page.getByText("Try reading flag.txt, asking for a fortune, or pinging aldo.")).toBeVisible();
+  await input.fill("cat flag.txt");
+  await input.press("Enter");
+  await expect(page.getByText("flag{curiosity_is_a_feature}")).toBeVisible();
 });
 
 test("project route and writeup archive render", async ({ page }) => {
@@ -63,6 +73,7 @@ test("project route and writeup archive render", async ({ page }) => {
 
 test("contact validation returns accessible inline errors", async ({ page }) => {
   await page.goto("/contact");
+  await expect(page.getByText("Malaysia / Indonesia", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "Send Message" }).click();
   await expect(page.getByText("Check the highlighted fields.")).toBeVisible();
   await expect(page.locator("#name-error")).not.toBeEmpty();
@@ -77,6 +88,7 @@ test("custom 404 renders", async ({ page }) => {
 test("theme control cycles and persists", async ({ page }) => {
   await page.goto("/");
   const control = page.getByRole("button", { name: /^Theme:/ });
+  await expect(control).toBeEnabled();
   const before = await control.getAttribute("aria-label");
   await control.click();
   await expect(control).not.toHaveAttribute("aria-label", before ?? "");

@@ -30,8 +30,9 @@ export function ThemeControl({ className = "" }: { className?: string }) {
       type="button"
       className={`icon-button ${className}`}
       onClick={() => setTheme(next)}
-      aria-label={`Theme: ${current}. Change to ${next}.`}
-      title={`Theme: ${current}`}
+      disabled={!mounted}
+      aria-label={mounted ? `Theme: ${current}. Change to ${next}.` : "Theme: system. Loading preference."}
+      title={mounted ? `Theme: ${current}` : "Theme: system"}
     >
       <ThemeIcon theme={current} />
     </button>

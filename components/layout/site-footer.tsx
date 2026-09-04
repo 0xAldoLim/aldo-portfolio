@@ -9,7 +9,7 @@ export function SiteFooter() {
         <div className="footer-top">
           <div>
             <p className="footer-name">Aldo Lim Saputra</p>
-            <p className="footer-meta">CYBER SECURITY STUDENT / CTF PLAYER</p>
+            <p className="footer-meta">CYBER SECURITY STUDENT / CTF PLAYER / {siteConfig.location.toUpperCase()}</p>
           </div>
           <nav className="footer-links" aria-label="Footer navigation">
             {navItems.map((item) => <Link key={item.href} href={item.href}>{item.label}</Link>)}

@@ -8,9 +8,10 @@ import { useTheme } from "next-themes";
 type Entry = { command: string; output: string | "links" };
 
 const commandMap: Record<string, string | "links"> = {
-  help: "Available: about, whoami, skills, projects, ctf, writeups, contact, github, linkedin, clear, theme, history, pwd, ls",
-  about: "Computer Science Cyber Security student at APU. CTF player, builder, and security learner.",
-  whoami: "Aldo Lim Saputra / Cyber Security Student / CTF Player",
+  help: "Available: about, whoami, skills, projects, ctf, writeups, contact, github, linkedin, clear, theme, history, pwd, ls, hint",
+  hint: "Try reading flag.txt, asking for a fortune, or pinging aldo.",
+  about: "Computer Science Cyber Security student at APU. CTF player, builder, and security learner based in Malaysia and Indonesia.",
+  whoami: "Aldo Lim Saputra / Cyber Security Student / CTF Player / Malaysia + Indonesia",
   skills: "Security: reverse engineering, OSINT, threat intelligence, incident response, SOC operations, web security, and digital forensics.",
   projects: "/projects: HackEd CTF Platform, Bingoo, Mandiri News, and MitraPulse.",
   ctf: "/ctf: competition placements, finals, and MVP recognition from 2025 to 2026.",
@@ -19,9 +20,11 @@ const commandMap: Record<string, string | "links"> = {
   github: "links",
   linkedin: "links",
   pwd: "/home/aldo/portfolio",
-  ls: "about/  projects/  ctf/  writeups/  contact/",
+  ls: "about/  projects/  ctf/  writeups/  contact/  flag.txt",
   "cat flag.txt": "flag{curiosity_is_a_feature}",
   "sudo hire aldo": "Permission granted. Opening contact.",
+  fortune: "The fastest path to a solution is usually a better question.",
+  "ping aldo": "Reply from aldo: online between Malaysia and Indonesia.",
   uname: "portfolio 1.0 / Next.js / TypeScript",
 };
 
@@ -29,7 +32,7 @@ export function Terminal() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [entries, setEntries] = useState<Entry[]>([
-    { command: "", output: 'Interactive session ready. Type "help" for available commands.' },
+    { command: "", output: 'Interactive session ready. Type "help" for commands or "hint" for something hidden.' },
   ]);
   const [value, setValue] = useState("");
   const [history, setHistory] = useState<string[]>([]);
