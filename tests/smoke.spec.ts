@@ -4,6 +4,10 @@ import path from "node:path";
 
 test("homepage loads and main navigation works", async ({ page }) => {
   await page.goto("/");
+  const loader = page.getByTestId("boot-loader");
+  await expect(loader).toBeVisible();
+  await expect(loader.locator(".pixel-dino")).toBeVisible();
+  await expect(loader).toBeHidden({ timeout: 3000 });
   await expect(page.getByRole("heading", { name: /ALDO LIM SAPUTRA/i })).toBeVisible();
   await page.getByRole("navigation", { name: "Primary navigation" }).getByRole("link", { name: /Projects/ }).click();
   await expect(page).toHaveURL(/\/projects$/);
@@ -21,6 +25,13 @@ test("hero wave animates when the page scrolls", async ({ page }) => {
   expect(after).not.toBe(before);
   await expect(page.getByRole("button", { name: "Open command palette" }).locator("svg")).toBeVisible();
   await expect(page.getByRole("button", { name: /^Theme:/ }).locator("svg")).toBeVisible();
+});
+
+test("motion background is present beyond the homepage", async ({ page }) => {
+  for (const route of ["/about", "/projects", "/ctf", "/writeups", "/contact"]) {
+    await page.goto(route);
+    await expect(page.locator(".site-background canvas.line-field")).toBeVisible();
+  }
 });
 
 test("mobile menu opens, shows active route, and closes with Escape", async ({ page }) => {

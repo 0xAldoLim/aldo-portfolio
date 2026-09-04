@@ -57,6 +57,7 @@ body {
   transition: background-color 180ms ease, color 180ms ease;
 }
 body.menu-open { overflow: hidden; }
+#main-content, .footer { position: relative; z-index: 1; }
 ::selection { background: var(--selection); color: var(--text); }
 a { color: inherit; text-decoration: none; }
 button, input, textarea { font: inherit; }
@@ -178,8 +179,44 @@ img { max-width: 100%; height: auto; }
 .text-link:hover { color: var(--text); border-color: var(--accent); }
 .external-mark { font-size: .8em; color: var(--accent); }
 
-.line-field { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; opacity: .74; pointer-events: none; }
-[data-theme="dark"] .line-field { opacity: .86; }
+.site-background { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+.line-field { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .36; pointer-events: none; }
+[data-theme="dark"] .line-field { opacity: .56; }
+
+.boot-loader { position: fixed; z-index: 300; inset: 0; display: grid; place-items: center; background: var(--bg); color: var(--text); opacity: 1; visibility: visible; transition: opacity 220ms ease, visibility 220ms ease; }
+.boot-loader[data-state="leaving"] { opacity: 0; visibility: hidden; }
+.boot-loader-inner { width: min(78vw, 360px); }
+.boot-loader-inner > p { margin: 0 0 12px; color: var(--muted); font-family: "JetBrains Mono Variable", monospace; font-size: .66rem; letter-spacing: .08em; text-align: center; }
+.dino-stage { position: relative; height: 78px; overflow: hidden; border-bottom: 1px solid var(--border); }
+.pixel-dino { position: absolute; z-index: 2; left: 10%; bottom: 0; width: 62px; height: 47px; fill: var(--text); }
+.dino-eye { fill: var(--bg); }
+.dino-leg { transform-box: fill-box; transform-origin: top; animation: dino-step 180ms steps(1, end) infinite; }
+.dino-leg-two { animation-direction: reverse; }
+.pixel-cactus { position: absolute; bottom: 0; width: 5px; height: 28px; background: var(--muted); animation: cactus-run 920ms linear infinite; }
+.pixel-cactus::before, .pixel-cactus::after { content: ""; position: absolute; width: 7px; height: 4px; background: var(--muted); }
+.pixel-cactus::before { top: 9px; right: 0; transform: translateX(4px); }
+.pixel-cactus::after { top: 16px; left: 0; transform: translateX(-4px); }
+.pixel-cactus-one { left: 105%; }
+.pixel-cactus-two { left: 152%; animation-delay: -460ms; }
+.boot-progress { height: 3px; margin-top: 18px; overflow: hidden; border: 1px solid var(--border); }
+.boot-progress span { display: block; width: 0; height: 100%; background: var(--accent); animation: boot-progress 1450ms cubic-bezier(.22, .8, .25, 1) forwards; }
+
+@keyframes dino-step {
+  0%, 49% { transform: scaleY(1); }
+  50%, 100% { transform: scaleY(.58); }
+}
+
+@keyframes cactus-run {
+  from { transform: translateX(0); }
+  to { transform: translateX(-440px); }
+}
+
+@keyframes boot-progress {
+  0% { width: 4%; }
+  30% { width: 38%; }
+  65% { width: 71%; }
+  100% { width: 100%; }
+}
 .split { display: grid; grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr); gap: clamp(48px, 10vw, 160px); align-items: start; }
 .body-copy { max-width: 700px; margin: 0; color: var(--muted); font-size: clamp(1.08rem, 2vw, 1.42rem); line-height: 1.6; }
 .section-link { margin-top: 28px; }

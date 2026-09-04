@@ -7,6 +7,8 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { CommandPalette } from "@/components/command-palette/command-palette";
+import { LineField } from "@/components/background/line-field";
+import { BootLoader } from "@/components/loading/boot-loader";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -46,6 +48,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider>
+          <BootLoader />
+          <div className="site-background"><LineField /></div>
           <a className="skip-link" href="#main-content">Skip to content</a>
           <SiteHeader />
           <main id="main-content">{children}</main>

@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
-import { LineField } from "@/components/background/line-field";
 import { ProjectList } from "@/components/projects/project-list";
 import { CtfArchive } from "@/components/ctf/ctf-archive";
 import { Terminal } from "@/components/terminal/terminal";
@@ -13,7 +12,6 @@ export default function HomePage() {
   return (
     <>
       <section className="hero section">
-        <LineField />
         <div className="site-shell hero-content">
           <p className="eyebrow">STATUS: ACTIVE / MALAYSIA / INDONESIA</p>
           <h1 className="display">ALDO LIM<br />SAPUTRA</h1>
