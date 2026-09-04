@@ -26,7 +26,6 @@ export function SiteHeader() {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    document.body.classList.toggle("menu-open", open);
     if (!open) return;
     const firstLink = menuRef.current?.querySelector<HTMLElement>("a");
     firstLink?.focus();
@@ -35,24 +34,9 @@ export function SiteHeader() {
         setOpen(false);
         triggerRef.current?.focus();
       }
-      if (event.key === "Tab" && menuRef.current) {
-        const focusable = Array.from(menuRef.current.querySelectorAll<HTMLElement>('a, button:not([disabled])'));
-        const first = focusable[0];
-        const last = focusable.at(-1);
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
-      }
     };
     window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      document.body.classList.remove("menu-open");
-    };
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
   return (
@@ -77,8 +61,8 @@ export function SiteHeader() {
         </div>
       </div>
       {open ? (
-        <div className="mobile-menu-layer" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
-          <div ref={menuRef} className="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+        <div ref={menuRef} className="mobile-menu" id="mobile-menu">
+          <div className="site-shell mobile-menu-inner">
             <nav aria-label="Mobile navigation">
               {navItems.map((item) => (
                 <Link key={item.href} className="mobile-link" href={item.href} aria-current={isActive(pathname, item.href) ? "page" : undefined} onClick={() => setOpen(false)}>

@@ -14,6 +14,24 @@ test("homepage loads and main navigation works", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Work built");
 });
 
+test("loader dinosaur jumps as the cactus reaches it", async ({ page }) => {
+  await page.goto("/");
+  const dinosaur = page.locator(".dino-jumper");
+  const cactus = page.locator(".pixel-cactus");
+  const startingDinosaur = await dinosaur.boundingBox();
+  const startingCactus = await cactus.boundingBox();
+  await page.waitForTimeout(1900);
+  const jumpingDinosaur = await dinosaur.boundingBox();
+  const approachingCactus = await cactus.boundingBox();
+
+  expect(startingDinosaur).not.toBeNull();
+  expect(startingCactus).not.toBeNull();
+  expect(jumpingDinosaur).not.toBeNull();
+  expect(approachingCactus).not.toBeNull();
+  expect(jumpingDinosaur!.y).toBeLessThan(startingDinosaur!.y - 25);
+  expect(approachingCactus!.x).toBeLessThan(startingCactus!.x - 180);
+});
+
 test("hero wave animates when the page scrolls", async ({ page }) => {
   await page.goto("/");
   const canvas = page.locator("canvas.line-field");
@@ -34,19 +52,23 @@ test("motion background is present beyond the homepage", async ({ page }) => {
   }
 });
 
-test("mobile menu opens, shows active route, and closes with Escape", async ({ page }) => {
+test("mobile menu opens, allows page scrolling, and closes with Escape", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/about");
   const menu = page.getByRole("button", { name: "Open menu" });
   await menu.click();
-  const dialog = page.getByRole("dialog", { name: "Mobile navigation" });
-  await expect(dialog).toBeVisible();
-  const bounds = await dialog.boundingBox();
-  expect(bounds?.width).toBeLessThanOrEqual(350);
-  expect(bounds?.height).toBeLessThan(380);
-  await expect(dialog.getByRole("link", { name: /About/ })).toHaveAttribute("aria-current", "page");
+  const mobileNavigation = page.getByRole("navigation", { name: "Mobile navigation" });
+  await expect(mobileNavigation).toBeVisible();
+  const menuSurface = page.locator("#mobile-menu");
+  const bounds = await menuSurface.boundingBox();
+  expect(bounds?.x).toBe(0);
+  expect(bounds?.width).toBe(390);
+  await expect(mobileNavigation.getByRole("link", { name: /About/ })).toHaveAttribute("aria-current", "page");
+  await page.evaluate(() => window.scrollTo(0, 420));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await expect(mobileNavigation).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog", { name: "Mobile navigation" })).toBeHidden();
+  await expect(mobileNavigation).toBeHidden();
 });
 
 test("command palette opens and navigates", async ({ page }) => {
